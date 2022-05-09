@@ -1,10 +1,9 @@
 const express = require('express');
 const app = express();
-const port = 2000;
+const port = process.env.PORT || 2000;
 const messagesRoute = require('./routes/messages');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const serverless = require('serverless-http');
 require('dotenv/config');
 
 // CONNECT TO ONLINE DATABASE
@@ -33,11 +32,9 @@ app.use(function (req, res, next) {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/.netlify/functions/app', messagesRoute);
+app.use('/', messagesRoute);
 app.set('view engine', 'pug');
 
 app.listen(port, () => {
-  console.log(`TMWSD is listening at http://localhost:${port}`);
+  console.log(`We are listening at http://localhost:${port}`);
 });
-
-module.exports.handler = serverless(app);
